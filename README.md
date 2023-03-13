@@ -23,3 +23,4 @@ After the installation finishes - Go to the http://<your raspberry ip>:8421 page
 
 
 
+![link](https://raw.githubusercontent.com/mi3nts/minWeZeroRPiOS/main/res/piSugar3.png)
