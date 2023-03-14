@@ -6,7 +6,7 @@ from mintsXU4 import mintsDefinitions as mD
 import sys
 
 dataFolder  = mD.dataFolder
-ipsPort     = mD.ipsPorts[0]
+ipsPort     = "/dev/ttyS0"
 baudRate    = 115200
 
 def main():
