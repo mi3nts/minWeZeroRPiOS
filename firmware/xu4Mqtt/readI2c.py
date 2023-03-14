@@ -30,7 +30,7 @@ from mintsXU4 import mintsSensorReader as mSR
 
 debug  = False 
 
-bus     = smbus2.SMBus(1)
+bus     = smbus2.SMBus(4)
 
 scd30   = SCD30(bus,debug)
 bme280  = BME280(bus,debug)

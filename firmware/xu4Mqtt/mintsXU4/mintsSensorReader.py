@@ -482,12 +482,12 @@ def MGS001Write(sensorData,dateTime):
 
 
 def SCD30WriteI2c(sensorData):
-    sensorName = "SCD30"
+    sensorName = "SCD30V2"
     dataLength = 4
     if(len(sensorData) == (dataLength)):
         sensorDictionary =  OrderedDict([
                 ("dateTime"     ,sensorData[0]),
-        		("c02"          ,sensorData[1]),
+        		("co2"          ,sensorData[1]),
             	("temperature"  ,sensorData[2]),
                 ("humidity"     ,sensorData[3]),
                 ])
