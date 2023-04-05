@@ -61,5 +61,5 @@ if __name__ == "__main__":
     print("=============")
     print("    MINTS    ")
     print("=============")
-    print("Monitoring GPS Sensor via I2C")
+    print("Monitoring GPS Sensor via i2s")
     main()
