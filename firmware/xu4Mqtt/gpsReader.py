@@ -10,13 +10,13 @@ from mintsXU4 import mintsDefinitions as mD
 
 
 
-delta  = 2
-lastGPRMC = time.time()
-lastGPGGA = time.time()
 
 def main():
 
 
+    delta  = 2
+    lastGPRMC = time.time()
+    lastGPGGA = time.time()
 
     try:  
     # Detecting if the GPS is Connected
