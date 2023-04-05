@@ -10,25 +10,19 @@ try:
 # Detecting if the GPS is Connected
     i2c = I2C(4)
     gps = adafruit_gps.GPS_GtopI2C(i2c, debug=False) # Use I2C interface
+    print("GPS found")
 except Exception as e:
     time.sleep(.5)
     print("No GPS found")
     print ("Error and type: %s - %s." % (e,type(e)))
     quit()
 
-
 # Turn on everything (not all of it is parsed!)
 print("Sending GPS Command")
 gps.send_command(b"PMTK314,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0")
 
-# Set update rate to once a second (1hz) which is what you typically want.
+print("Changing Update Frequency")
 gps.send_command(b"PMTK220,1000")
-# Or decrease to once every two seconds by doubling the millisecond value.
-# Be sure to also increase your UART timeout above!
-# gps.send_command(b'PMTK220,2000')
-# You can also speed up the rate, but don't go too fast or else you can lose
-# data during parsing.  This would be twice a second (2hz, 500ms delay):
-# gps.send_command(b'PMTK220,500')
 
 
 def format_dop(dop):
@@ -58,46 +52,15 @@ talkers = {
     "GN": "GNSS",
 }
 
-# Main loop runs forever printing the location, etc. every second.
 last_print = time.monotonic()
-while True:
-    # Make sure to call gps.update() every loop iteration and at least twice
-    # as fast as data comes from the GPS unit (usually every second).
-    # This returns a bool that's true if it parsed new data (you can ignore it
-    # though if you don't care and instead look at the has_fix property).
-    
 
-    
-    #if not gps.update() or not gps.has_fix:
-    #    time.sleep(0.1)
-    #    continue
-    
-    gps.update()
-    # print(gps.has_fix)     
-    # time.sleep(0.1)
-    print(gps.nmea_sentence)    
-    #print(gps.sat_prns)
-    
-    #if gps.nmea_sentence[3:6] == "GSA":
-    #    print(f"{gps.latitude:.6f}, {gps.longitude:.6f} {gps.altitude_m}m")
-    #    print(f"2D Fix: {gps.has_fix}  3D Fix: {gps.has_3d_fix}")
-    #    print(f"  PDOP (Position Dilution of Precision): {format_dop(gps.pdop)}")
-    #    print(f"  HDOP (Horizontal Dilution of Precision): {format_dop(gps.hdop)}")
-    #    print(f"  VDOP (Vertical Dilution of Precision): {format_dop(gps.vdop)}")
-    #    print("Satellites used for fix:")
-    #    for s in gps.sat_prns:
-    #        talker = talkers[s[0:2]]
-    #        number = s[2:]
-    #        print(f"  {talker}-{number} ", end="")
-    #        if gps.sats is None:
-    #            print("- no info")
-    #        else:
-    #            try:
-    #                sat = gps.sats[s]
-    #                if sat is None:
-    #                   print("- no info")
-    #                else:
-    #                    print(f"Elevation:{sat[1]}* Azimuth:{sat[2]}* SNR:{sat[3]}dB")
-    #            except KeyError:
-    #                print("- no info")
-    #    print()
+while True:
+
+    if not gps.update() or not gps.has_fix:
+       time.sleep(0.1)
+       print("No Coordinates found")
+       print(gps.nmea_sentence) 
+       continue
+
+       
+
