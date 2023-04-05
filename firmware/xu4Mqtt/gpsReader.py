@@ -8,11 +8,13 @@ from adafruit_extended_bus import ExtendedI2C as I2C
 from mintsXU4 import mintsSensorReader as mSR
 from mintsXU4 import mintsDefinitions as mD
 
-lastGPRMC = time.time()
-lastGPGGA = time.time()
-delta  = 2
+
 
 def main():
+    delta  = 2
+
+    lastGPRMC = time.time()
+    lastGPGGA = time.time()
     try:  
     # Detecting if the GPS is Connected
         i2c = I2C(4)
