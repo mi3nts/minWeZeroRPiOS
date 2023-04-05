@@ -10,11 +10,14 @@ from mintsXU4 import mintsDefinitions as mD
 
 
 
-def main():
-    delta  = 2
+delta  = 2
+lastGPRMC = time.time()
+lastGPGGA = time.time()
 
-    lastGPRMC = time.time()
-    lastGPGGA = time.time()
+def main():
+
+
+
     try:  
     # Detecting if the GPS is Connected
         i2c = I2C(4)
@@ -35,6 +38,7 @@ def main():
 
 
     while True:
+        print("--------++++++++++----------+++++++++++--------")
         try:  
             if not gps.update() or not gps.has_fix:
                 time.sleep(0.1)
