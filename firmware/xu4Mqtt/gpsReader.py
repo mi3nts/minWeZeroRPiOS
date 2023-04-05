@@ -38,7 +38,6 @@ def main():
 
 
     while True:
-        print("--------++++++++++----------+++++++++++--------")
         try:  
             if not gps.update() or not gps.has_fix:
                 time.sleep(0.1)

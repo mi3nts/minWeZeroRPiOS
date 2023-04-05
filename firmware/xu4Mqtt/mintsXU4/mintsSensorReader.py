@@ -41,13 +41,11 @@ def sensorFinisherWearable(dateTime,hostID,sensorName,sensorDictionary):
     writePath = getWritePathWearable(hostID,sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
-    print(writePath)
+    # print(writePath)
     if(mqttOn):
        mL.writeMQTTLatestWearable(hostID,sensorName,sensorDictionary)
     if(latestOn):
        mL.writeJSONLatestWearable(hostID,sensorName,sensorDictionary)
-
-    print("-----------------------------------")
     print(sensorName)
     print(sensorDictionary)
 
