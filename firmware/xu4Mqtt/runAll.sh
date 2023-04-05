@@ -11,9 +11,9 @@ sleep 5
 python3 readI2c.py &
 sleep 5
 
-kill $(pgrep -f 'GPSReader.py')
+kill $(pgrep -f 'gpsReader.py')
 sleep 5
-python3 GPSReader.py &
+python3 gpsReader.py &
 sleep 5
 
 # kill $(pgrep -f 'batteryReader.py')
