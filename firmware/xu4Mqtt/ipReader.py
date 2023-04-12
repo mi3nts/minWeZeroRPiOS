@@ -28,12 +28,12 @@ def main():
 
     publicIp = get('https://api.ipify.org').text
 
-    localIp = ni.ifaddresses('eth0')[ni.AF_INET][0]['addr'] # Odroid XU4
+    localIp = ni.ifaddresses('wlan0')[ni.AF_INET][0]['addr'] # Odroid XU4
 
     sensorDictionary =  OrderedDict([
             ("dateTime"     , str(dateTimeNow)),
             ("publicIp"  ,str(publicIp)),
-            ("localIp"  ,str(localIp))
+            ("localIp"  ,str(localIp))Than
             ])
 
     mSR.sensorFinisherIP(dateTimeNow,sensorName,sensorDictionary)
