@@ -25,3 +25,8 @@ After the installation finishes - Go to the http://<your raspberry ip>:8421 page
 
 ## For the IPS7100 to work on the GPIO Serial Port
 To manually change the settings, edit the kernel command line with `sudo nano /boot/cmdline.txt`. Find the console entry that refers to the serial0 device, and remove it, including the baud rate setting. It will look something like `console=serial0,115200`. Make sure the rest of the line remains the same, as errors in this configuration can stop the Raspberry Pi from booting.
+
+## New Image on the pi
+- Add dwservice tag
+- Start the rasberry pi via main power 
+- update both the rtc as well as the pi time via the pisugar interface
