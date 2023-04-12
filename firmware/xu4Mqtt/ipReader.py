@@ -33,7 +33,7 @@ def main():
     sensorDictionary =  OrderedDict([
             ("dateTime"     , str(dateTimeNow)),
             ("publicIp"  ,str(publicIp)),
-            ("localIp"  ,str(localIp))Than
+            ("localIp"  ,str(localIp))
             ])
 
     mSR.sensorFinisherIP(dateTimeNow,sensorName,sensorDictionary)
