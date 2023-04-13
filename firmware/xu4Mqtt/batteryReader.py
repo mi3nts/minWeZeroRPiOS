@@ -1,10 +1,12 @@
+# Battery reader written for Pi Sugar 3 module
+# https://github.com/PiSugar/PiSugar/wiki/PiSugar-Power-Manager-(Software)
+
 import datetime
 from subprocess import run
 import time
 from collections import OrderedDict
 from mintsXU4 import mintsSensorReader as mSR
 import os
-
 
 debug  = False 
 
@@ -19,35 +21,42 @@ def main():
 
     while True:
         try:
+            
+            dateTime          = datetime.datetime.now()
+
+            rtcTime,rtcErr =\
+                             getPiSugarOutput("get rtc_time","battery: ")
             batteryPercentage,batteryPercentageErr =\
                              getPiSugarOutput("get battery","battery: ")
-            time.sleep(10)
+            batteryVoltage,batteryVoltageErr =\
+                             getPiSugarOutput("get battery_v","battery: ")            
+            batteryCurrent,batteryCurrentErr =\
+                             getPiSugarOutput("get battery_i","battery: ")               
+            batteryChargingState,batteryChargingErr =\
+                             getPiSugarOutput("get battery_charging","battery: ")               
+            batteryLedAmount,batteryChargingErr =\
+                             getPiSugarOutput("get battery_led_amount","battery: ")                         
+            batteryPowerPlugged,batteryChargingErr =\
+                             getPiSugarOutput("get battery_power_plugged","battery: ")      
 
-#             dateTime          = datetime.datetime.now()
-#             batteryLevelRaw   = wpi.analogRead(25)
-#             referenceLevelRaw = wpi.analogRead(29)
-#             batteryLevel      = batteryLevelRaw*(2.1*2)/(4095)
-#             #batteryLevelPercetage = batteryLevel*(100/4.2)
-#             batteryLevelPercetage = (batteryLevel-2.5)*(100)/(3.25-2.5)
 
 
-#             sensorDictionary =  OrderedDict([
-#                     ("dateTime"               ,str(dateTime)), # always the same
-#                     ("batteryLevelRaw"        ,str(batteryLevelRaw)), # check with arduino code
-#                     ("batteryLevel"           ,str(batteryLevel)),
-#                     ("batteryLevelPercetage"  ,str(batteryLevelPercetage)),
-#                     ("referenceLevelRaw"      ,str(referenceLevelRaw))
-#                     ])
-            
-#             if batteryLevelPercetage< 5:
-#                 # Shut Down Node 
-#                 print("Low Battery - Shutting Down PC")
-# #                os.system("sudo shutdown now")
-    
+            sensorDictionary =  OrderedDict([
+                    ("dateTime"               ,str(dateTime)), # always the same
+                    ("batteryPercentage"      ,str(batteryPercentage)), # check with arduino code
+                    ("batteryVoltage"         ,str(batteryVoltage)), # check with arduino code
+                    ("batteryCurrent"         ,str(batteryCurrent)), # check with arduino code
+                    ("batteryChargingState"   ,str(batteryChargingState)), # check with arduino code
+                    ("batteryLedAmount"       ,str(batteryLedAmount)), # check with arduino code
+                    ("batteryPowerPlugged"    ,str(batteryPowerPlugged)), # check with arduino code
+                    ("rtcTime"                ,str(rtcTime)), # check with arduino code
+                    ])
+            print(sensorDictionary)        
 
             # mSR.sensorFinisher(dateTime,"MWBL002",sensorDictionary)
             # time.sleep(30)
 
+            time.sleep(10)
 
         except Exception as e:
             print(e)
