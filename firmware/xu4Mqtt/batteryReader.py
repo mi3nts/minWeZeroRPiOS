@@ -49,12 +49,12 @@ def main():
                     ("batteryChargingState"   ,str(batteryChargingState)), # check with arduino code
                     ("batteryLedAmount"       ,str(batteryLedAmount)), # check with arduino code
                     ("batteryPowerPlugged"    ,str(batteryPowerPlugged)), # check with arduino code
-                    ("rtcTime"                ,str(rtcTime)), # check with arduino code
+                    ("rtcTime"                ,str(rtcTime)), 
                     ])
             
             print(sensorDictionary)        
 
-            # mSR.sensorFinisher(dateTime,"MWBL002",sensorDictionary)
+            # mSR.sensorFinisher(dateTime,"MWBL003",sensorDictionary)
             # time.sleep(30)
 
             time.sleep(10)
