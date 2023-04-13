@@ -4,9 +4,14 @@ import time
 from collections import OrderedDict
 from mintsXU4 import mintsSensorReader as mSR
 import os
-wpi.wiringPiSetup()
+
 
 debug  = False 
+
+def getPiSugarOutput(command,ignoreStr):
+    
+
+
 
 def main():
     while True:
@@ -33,7 +38,7 @@ def main():
 #                os.system("sudo shutdown now")
     
 
-            mSR.sensorFinisher(dateTime,"MWBL001",sensorDictionary)
+            mSR.sensorFinisher(dateTime,"MWBL002",sensorDictionary)
             time.sleep(30)
 
 
