@@ -47,9 +47,9 @@ def main():
                     ("batteryPercentage"      ,str(batteryPercentage)),
                     ("batteryVoltage"         ,str(batteryVoltage)), 
                     ("batteryCurrent"         ,str(batteryCurrent)), 
-                    ("batteryChargingState"   ,str(batteryChargingState)),
+                    ("batteryChargingState"   ,str(batteryChargingState=="true")),
                     ("batteryLedAmount"       ,str(batteryLedAmount)), 
-                    ("batteryPowerPlugged"    ,str(batteryPowerPlugged)),
+                    ("batteryPowerPlugged"    ,str(batteryPowerPlugged=="true")),
                     ])
             
             print(sensorDictionary)        
