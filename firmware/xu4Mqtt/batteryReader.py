@@ -9,18 +9,18 @@ import os
 debug  = False 
 
 def getPiSugarOutput(command,ignoreStr):
-    print(command)
-    print(ignoreStr)
     data = run("echo " +command + " | nc -q 1 127.0.0.1 8423",capture_output=True,shell=True)
-    print(data.stdout.decode().replace("\n","").replace(ignoreStr,""))
-    print(data.stderr)
+    outValue = data.stdout.decode().replace("\n","").replace(ignoreStr,"")
+    errCode  = data.stderr
+    return outValue, errCode;
 
 def main():
     
 
     while True:
         try:
-            getPiSugarOutput("get battery","battery: ")
+            batteryPercentage,batteryPercentageErr =\
+                             getPiSugarOutput("get battery","battery: ")
             time.sleep(10)
 
 #             dateTime          = datetime.datetime.now()
