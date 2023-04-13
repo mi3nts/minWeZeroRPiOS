@@ -20,7 +20,7 @@ def main():
 
     while True:
         try:
-            getPiSugarOutput("get battery","ignoreStr")
+            getPiSugarOutput("get battery","battery: ")
             time.sleep(10)
 
 #             dateTime          = datetime.datetime.now()
