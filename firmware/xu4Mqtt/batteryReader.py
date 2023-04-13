@@ -43,13 +43,13 @@ def main():
 
             sensorDictionary =  OrderedDict([
                     ("dateTime"               ,str(dateTime)), # always the same
-                    ("batteryPercentage"      ,str(batteryPercentage)), # check with arduino code
-                    ("batteryVoltage"         ,str(batteryVoltage)), # check with arduino code
-                    ("batteryCurrent"         ,str(batteryCurrent)), # check with arduino code
-                    ("batteryChargingState"   ,str(batteryChargingState)), # check with arduino code
-                    ("batteryLedAmount"       ,str(batteryLedAmount)), # check with arduino code
-                    ("batteryPowerPlugged"    ,str(batteryPowerPlugged)), # check with arduino code
-                    ("rtcTime"                ,str(rtcTime)), 
+                    ("rtcTime"                ,str(rtcTime)),                     
+                    ("batteryPercentage"      ,str(batteryPercentage)),
+                    ("batteryVoltage"         ,str(batteryVoltage)), 
+                    ("batteryCurrent"         ,str(batteryCurrent)), 
+                    ("batteryChargingState"   ,str(batteryChargingState)),
+                    ("batteryLedAmount"       ,str(batteryLedAmount)), 
+                    ("batteryPowerPlugged"    ,str(batteryPowerPlugged)),
                     ])
             
             print(sensorDictionary)        
