@@ -21,23 +21,23 @@ def main():
 
     while True:
         try:
-            
+            print("=======")
             dateTime          = datetime.datetime.now()
 
             rtcTime,rtcErr =\
-                             getPiSugarOutput("get rtc_time","battery: ")
+                             getPiSugarOutput("get rtc_time","rtc_time: ")
             batteryPercentage,batteryPercentageErr =\
-                             getPiSugarOutput("get battery","battery: ")
+                             getPiSugarOutput("get battery","battery_v: ")
             batteryVoltage,batteryVoltageErr =\
                              getPiSugarOutput("get battery_v","battery: ")            
             batteryCurrent,batteryCurrentErr =\
-                             getPiSugarOutput("get battery_i","battery: ")               
+                             getPiSugarOutput("get battery_i","battery_i: ")               
             batteryChargingState,batteryChargingErr =\
-                             getPiSugarOutput("get battery_charging","battery: ")               
+                             getPiSugarOutput("get battery_charging","battery_charging: ")               
             batteryLedAmount,batteryChargingErr =\
-                             getPiSugarOutput("get battery_led_amount","battery: ")                         
+                             getPiSugarOutput("get battery_led_amount","battery_led_amount: ")                         
             batteryPowerPlugged,batteryChargingErr =\
-                             getPiSugarOutput("get battery_power_plugged","battery: ")      
+                             getPiSugarOutput("get battery_power_plugged","battery_power_plugged: ")      
 
 
 
@@ -51,6 +51,7 @@ def main():
                     ("batteryPowerPlugged"    ,str(batteryPowerPlugged)), # check with arduino code
                     ("rtcTime"                ,str(rtcTime)), # check with arduino code
                     ])
+            
             print(sensorDictionary)        
 
             # mSR.sensorFinisher(dateTime,"MWBL002",sensorDictionary)
