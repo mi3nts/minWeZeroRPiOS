@@ -12,7 +12,7 @@ def getPiSugarOutput(command,ignoreStr):
     print(command)
     print(ignoreStr)
     data = run("echo " +command + " | nc -q 1 127.0.0.1 8423",capture_output=True,shell=True)
-    print(str(data.stdout).replace(":",""))
+    print(data.stdout.decode().replace("\n","").replace(ignoreStr,""))
     print(data.stderr)
 
 def main():
