@@ -19,7 +19,7 @@ def getPiSugarOutput(command,ignoreStr):
     errCode  = data.stderr
     return outValue, errCode;
 
-def main():
+def main(startTime,loopInterval):
     
 
     while True:
@@ -43,8 +43,6 @@ def main():
             batteryPowerPlugged,batteryChargingErr =\
                              getPiSugarOutput("get battery_power_plugged","battery_power_plugged: ")      
 
-
-
             sensorDictionary =  OrderedDict([
                     ("dateTime"               ,str(dateTime)), # always the same
                     ("rtcTime"                ,str(rtcTime)),                     
@@ -64,10 +62,9 @@ def main():
             print(e)
             break
 
-
 if __name__ == "__main__":
     print("=============")
     print("    MINTS    ")
     print("=============")
     print("Monitoring Battery level for Mints Wearable Node")
-    main()
+    main(startTime,loopInterval)
