@@ -8,7 +8,7 @@ from collections import OrderedDict
 from mintsXU4 import mintsSensorReader as mSR
 import os
 
-startTime    = time.time()
+
 loopInterval = 30
 
 debug  = False 
@@ -20,8 +20,7 @@ def getPiSugarOutput(command,ignoreStr):
     return outValue, errCode;
 
 def main(startTime,loopInterval):
-    
-
+    startTime    = time.time()
     while True:
         try:
             
