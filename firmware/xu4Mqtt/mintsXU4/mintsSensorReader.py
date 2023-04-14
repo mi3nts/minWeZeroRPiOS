@@ -490,14 +490,17 @@ def MGS001Write(sensorData,dateTime):
 def SCD30WriteI2c(sensorData):
     sensorName = "SCD30V2"
     dataLength = 4
-    if(len(sensorData) == (dataLength)):
-        sensorDictionary =  OrderedDict([
-                ("dateTime"     ,str(sensorData[0])),
-        		("co2"          ,sensorData[1]),
-            	("temperature"  ,sensorData[2]),
-                ("humidity"     ,sensorData[3]),
-                ])
-        sensorFinisher(sensorData[0],sensorName,sensorDictionary)
+    if sensorData is not None:
+        if(len(sensorData) == (dataLength)):
+            sensorDictionary =  OrderedDict([
+                    ("dateTime"     ,str(sensorData[0])),
+                    ("co2"          ,sensorData[1]),
+                    ("temperature"  ,sensorData[2]),
+                    ("humidity"     ,sensorData[3]),
+                    ])
+            sensorFinisher(sensorData[0],sensorName,sensorDictionary)
+    else:
+        print("No Sensor Data Retuned")          
 
 def SCD30Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
