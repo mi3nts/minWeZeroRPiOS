@@ -20,13 +20,11 @@ def getPiSugarOutput(command,ignoreStr):
     return outValue, errCode;
 
 def main(loopInterval):
+    
     startTime    = time.time()
     while True:
         try:
-            
-            print("=======")
             dateTime          = datetime.datetime.now()
-
             rtcTime,rtcErr =\
                              getPiSugarOutput("get rtc_time","rtc_time: ")
             batteryPercentage,batteryPercentageErr =\
@@ -55,6 +53,7 @@ def main(loopInterval):
             
             print(sensorDictionary)        
             mSR.sensorFinisher(dateTime,"MWBR001",sensorDictionary)
+            
             startTime = mSR.delayMints(time.time() - startTime,loopInterval)
             
         except Exception as e:
