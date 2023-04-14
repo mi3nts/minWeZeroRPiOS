@@ -38,9 +38,7 @@ def main(loopInterval):
                              getPiSugarOutput("get battery_led_amount","battery_led_amount: ")                         
             batteryPowerPlugged,batteryChargingErr =\
                              getPiSugarOutput("get battery_power_plugged","battery_power_plugged: ")      
-            
-            if (batteryChargingState == 0 or batteryChargingState == 1):
-                sensorDictionary =  OrderedDict([
+            sensorDictionary =  OrderedDict([
                         ("dateTime"               ,str(dateTime)), # always the same
                         ("rtcTime"                ,str(rtcTime)),                     
                         ("batteryPercentage"      ,str(batteryPercentage)),
@@ -49,8 +47,9 @@ def main(loopInterval):
                         ("batteryLedAmount"       ,str(batteryLedAmount)), 
                         ("batteryPowerPlugged"    ,str(batteryPowerPlugged)),
                         ])
+            print(sensorDictionary)
+            if (batteryChargingState == 0 or batteryChargingState == 1):
                 mSR.sensorFinisher(dateTime,"MWBR001",sensorDictionary)
-                
                 startTime = mSR.delayMints(time.time() - startTime,loopInterval)
             else:
                 print("Invalid Data")
