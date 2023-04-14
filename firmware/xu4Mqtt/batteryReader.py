@@ -24,6 +24,7 @@ def main(loopInterval):
     startTime    = time.time()
     while True:
         try:
+            print("============================================================")
             dateTime          = datetime.datetime.now()
             rtcTime,rtcErr =\
                              getPiSugarOutput("get rtc_time","rtc_time: ")
