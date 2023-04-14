@@ -52,7 +52,7 @@ def main(loopInterval):
                     ("batteryPowerPlugged"    ,str(batteryPowerPlugged)),
                     ])
             
-            print(sensorDictionary)        
+            # print(sensorDictionary)        
             mSR.sensorFinisher(dateTime,"MWBR001",sensorDictionary)
             
             startTime = mSR.delayMints(time.time() - startTime,loopInterval)
