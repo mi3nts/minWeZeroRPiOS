@@ -500,7 +500,7 @@ def SCD30WriteI2c(sensorData):
                     ])
             sensorFinisher(sensorData[0],sensorName,sensorDictionary)
     else:
-        print("No Sensor Data Retuned")          
+        print("No Sensor Data Retun")          
 
 def SCD30Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')

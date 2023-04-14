@@ -29,34 +29,33 @@ def main(loopInterval):
             rtcTime,rtcErr =\
                              getPiSugarOutput("get rtc_time","rtc_time: ")
             batteryPercentage,batteryPercentageErr =\
-                             getPiSugarOutput("get battery","battery_v: ")
+                             getPiSugarOutput("get battery","battery: ")
             batteryVoltage,batteryVoltageErr =\
-                             getPiSugarOutput("get battery_v","battery: ")            
-            batteryCurrent,batteryCurrentErr =\
-                             getPiSugarOutput("get battery_i","battery_i: ")               
+                             getPiSugarOutput("get battery_v","battery_v: ")            
             batteryChargingState,batteryChargingErr =\
                              getPiSugarOutput("get battery_charging","battery_charging: ")               
             batteryLedAmount,batteryChargingErr =\
                              getPiSugarOutput("get battery_led_amount","battery_led_amount: ")                         
             batteryPowerPlugged,batteryChargingErr =\
                              getPiSugarOutput("get battery_power_plugged","battery_power_plugged: ")      
+            
+            if (batteryChargingState == 0 or batteryChargingState == 1):
+                sensorDictionary =  OrderedDict([
+                        ("dateTime"               ,str(dateTime)), # always the same
+                        ("rtcTime"                ,str(rtcTime)),                     
+                        ("batteryPercentage"      ,str(batteryPercentage)),
+                        ("batteryVoltage"         ,str(batteryVoltage)), 
+                        ("batteryChargingState"   ,str(batteryChargingState)),
+                        ("batteryLedAmount"       ,str(batteryLedAmount)), 
+                        ("batteryPowerPlugged"    ,str(batteryPowerPlugged)),
+                        ])
+                mSR.sensorFinisher(dateTime,"MWBR001",sensorDictionary)
+                
+                startTime = mSR.delayMints(time.time() - startTime,loopInterval)
+            else:
+                print("Invalid Data")
+                time.sleep(10)
 
-            sensorDictionary =  OrderedDict([
-                    ("dateTime"               ,str(dateTime)), # always the same
-                    ("rtcTime"                ,str(rtcTime)),                     
-                    ("batteryPercentage"      ,str(batteryPercentage)),
-                    ("batteryVoltage"         ,str(batteryVoltage)), 
-                    ("batteryCurrent"         ,str(batteryCurrent)), 
-                    ("batteryChargingState"   ,str(batteryChargingState)),
-                    ("batteryLedAmount"       ,str(batteryLedAmount)), 
-                    ("batteryPowerPlugged"    ,str(batteryPowerPlugged)),
-                    ])
-            
-            # print(sensorDictionary)        
-            mSR.sensorFinisher(dateTime,"MWBR001",sensorDictionary)
-            
-            startTime = mSR.delayMints(time.time() - startTime,loopInterval)
-            
         except Exception as e:
             print(e)
             break
