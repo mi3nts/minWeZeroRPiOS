@@ -64,14 +64,19 @@ mkdir gitHubRepos
 ```
 curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash
 ```
-Update pisugar SW
+ - Update pisugar SW
 ```
 curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
 ```
-
-
-   45  sudo nano /boot/config.txt
-   46  sudo reboot
+- Add an extra I2c Pipeline 
+On the to /boot/config.txt add the following lines `dtoverlay=i2c-gpio,bus=4,i2c_gpio_delay_us=1,i2c_gpio_sda=23,i2c_gpio_scl=24` And connect the secondary I2C devices to gpio pins 23(16) and 24(18).
+ ```
+ sudo nano /boot/config.txt
+ ```
+ 
+ ```
+ 
+ sudo reboot
    47  i2cdetect -y 1
    48  sudo apt-get update
    49  sudo apt-get install i2c-tools
