@@ -34,26 +34,34 @@ bus     = smbus2.SMBus(4)
 
 scd30   = SCD30(bus,debug)
 bme280  = BME280(bus,debug)
+loopInterval = 5 
 
-def main():
+
+def main(loopInterval):
     scd30_valid    = scd30.initiate(30)
     bme280_valid   = bme280.initiate(30)
+    startTime    = time.time()
     while True:
         try:
             print("======= BME280 ========")
             if bme280_valid:
                 mSR.BME280WriteI2c(bme280.read())
             print("=======================")
-            time.sleep(2.5)       
+            time.sleep(2)       
             print("======== SCD30 ========")
             if scd30_valid:
                 mSR.SCD30WriteI2c(scd30.read())
             print("=======================")
-            time.sleep(2.5)
-     
+            time.sleep(2)
+            startTime = mSR.delayMints(time.time() - startTime,loopInterval)
+            
         except Exception as e:
             print(e)
             break   
         
 if __name__ == "__main__":
-   main()
+    print("=============")
+    print("    MINTS    ")
+    print("=============")
+    print("Monitoring Battery level for Mints Wearable Node")
+    main(loopInterval)
