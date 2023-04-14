@@ -36,6 +36,14 @@ dataFolderMQTT  = mD.dataFolderMQTT
 latestOn        = mD.latestOn
 mqttOn          = mD.mqttOn
 
+def delayMints(timeSpent,loopIntervalIn):
+    loopIntervalReal = loopIntervalIn ;
+    if(loopIntervalReal>timeSpent):
+        waitTime = loopIntervalReal - timeSpent;
+        time.sleep(waitTime);
+    return time.time();
+
+
 def sensorFinisherWearable(dateTime,hostID,sensorName,sensorDictionary):
     #Getting Write Path
     writePath = getWritePathWearable(hostID,sensorName,dateTime)

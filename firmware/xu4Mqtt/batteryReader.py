@@ -8,6 +8,9 @@ from collections import OrderedDict
 from mintsXU4 import mintsSensorReader as mSR
 import os
 
+startTime    = time.time()
+loopInterval = 30
+
 debug  = False 
 
 def getPiSugarOutput(command,ignoreStr):
@@ -21,6 +24,7 @@ def main():
 
     while True:
         try:
+            
             print("=======")
             dateTime          = datetime.datetime.now()
 
@@ -53,12 +57,9 @@ def main():
                     ])
             
             print(sensorDictionary)        
-
-            # mSR.sensorFinisher(dateTime,"MWBL003",sensorDictionary)
-            # time.sleep(30)
-
-            time.sleep(10)
-
+            mSR.sensorFinisher(dateTime,"MWBR001",sensorDictionary)
+            startTime = mSR.delayMints(time.time() - startTime,loopInterval)
+            
         except Exception as e:
             print(e)
             break
