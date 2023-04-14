@@ -19,7 +19,7 @@ def getPiSugarOutput(command,ignoreStr):
     errCode  = data.stderr
     return outValue, errCode;
 
-def main(startTime,loopInterval):
+def main(loopInterval):
     startTime    = time.time()
     while True:
         try:
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     print("    MINTS    ")
     print("=============")
     print("Monitoring Battery level for Mints Wearable Node")
-    main(startTime,loopInterval)
+    main(loopInterval)
