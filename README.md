@@ -32,51 +32,44 @@ To manually change the settings, edit the kernel command line with `sudo nano /b
 - update both the rtc as well as the pi time via the pisugar interface
 
 
-## 
-    1  rasbi-config
-    2  raspi-config
-    3  sduo raspi-config
-    4  sudo raspi-config
-    5  clear
-    6  ifconfig
-    7  sudo raspi-config
-    8  sudo reboot
-    9  ifconfig
-   10  sudo raspi-config
-   11  clear
-   12  ifconfig
-   13  sudo  nano /etc/wpa_supplicant/wpa_supplicant.cpnf
-   14  sudo  nano /etc/wpa_supplicant/wpa_supplicant.conf
-   15  sudo raspi-config
-   16  sudo  nano /etc/wpa_supplicant/wpa_supplicant.conf
-   17  ifconfig
-   18  sudo reboot
-   19  ifconfig
-   20  ls
-   21  ifconfig
-   22  sidp reboot
-   23  sudo reboot
-   24  clear
-   25  ls
-   26  wget https://www.dwservice.net/download/dwagent.sh
-   27  chmod +x dwagent.sh 
-   28  sudo ./dwagent.sh 
-   29  ls
-   30  cd ~
-   31  ls
-   32  mkdir gitHubRepos
-   33  cd gitHubRepos/
-   34  ls
-   35  clear
-   36  ls
-   37  cd ~
-   38  ls
-   39  cd gitHubRepos/
-   40  ls
-   41  curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash
-   42  clear
-   43  ls
-   44  curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
+
+## Basic Installation Steps
+- Using the rasberry pi imager do an sd card image
+
+
+- Using Raspi Config, enable Wi-Fi, I2C and the serial Port. 
+```
+sudo raspi-config
+```
+
+- Check wpa_supplimant file 
+```
+sudo  nano /etc/wpa_supplicant/wpa_supplicant.cpnf
+```
+- Reboot the Pi
+```sudo reboot```
+
+- Install dwservice 
+```
+https://www.dwservice.net/download/dwagent.sh
+chmod +x dwagent.sh 
+sudo ./dwagent.sh 
+```
+- clone the git repo 
+```
+mkdir gitHubRepos
+
+
+- Install pisugaru SW
+```
+curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash
+```
+Update pisugar SW
+```
+curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash
+```
+
+
    45  sudo nano /boot/config.txt
    46  sudo reboot
    47  i2cdetect -y 1
