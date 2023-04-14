@@ -48,7 +48,7 @@ def main(loopInterval):
                         ("batteryPowerPlugged"    ,str(batteryPowerPlugged)),
                         ])
             print(sensorDictionary)
-            if (batteryChargingState == 0 or batteryChargingState == 1):
+            if (batteryChargingState == '0' or batteryChargingState == '1'):
                 mSR.sensorFinisher(dateTime,"MWBR001",sensorDictionary)
                 startTime = mSR.delayMints(time.time() - startTime,loopInterval)
             else:
