@@ -1,8 +1,7 @@
 import time
-import board
-import busio
-import adafruit_gps
 import datetime
+
+import adafruit_gps
 from adafruit_extended_bus import ExtendedI2C as I2C
 
 from mintsXU4 import mintsSensorReader as mSR
@@ -14,7 +13,7 @@ from mintsXU4 import mintsDefinitions as mD
 def main():
 
 
-    delta  = 2
+    delta  = .75
     lastGPRMC = time.time()
     lastGPGGA = time.time()
 

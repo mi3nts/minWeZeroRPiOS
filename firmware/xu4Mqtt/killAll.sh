@@ -7,7 +7,7 @@ sleep 2
 kill $(pgrep -f 'i2cReader.py')
 sleep 2
 
-kill $(pgrep -f 'GPSReader.py')
+kill $(pgrep -f 'gpsReader.py')
 sleep 2
 
 kill $(pgrep -f 'batteryReader.py')
