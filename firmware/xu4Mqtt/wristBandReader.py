@@ -65,32 +65,12 @@ while True:
             print(wrist_band_connection)
             uart_service = wrist_band_connection[UARTService]
             while wrist_band_connection.connected:    
-                one_byte = uart_service.read(5)
+                one_byte = uart_service.read(4)
                 if one_byte:
                     print(datetime.datetime.now())
                     print(one_byte)
                     print()
-                # print(uart_service.readline().decode("utf-8"))
-        #             print(dis)
-    #             print("Device Information Services")
-    #             time.sleep(10)
-    #             try:
-    #                 manufacturer = dis.manufacturer
-    #                 print(manufacturer)
-    #             except AttributeError:
-    #                 manufacturer = "(Manufacturer Not specified)"
-    #             try:
-    #                 model_number = dis.model_number
-    #                 print(model_number)
-    #             except AttributeError:
-    #                 model_number = "(Model number not specified)"
-    #             print("Device:", manufacturer, model_number)
-    #         else:
-    #             print("No device information")
-    #         # pulse_ox_service = pulse_ox_connection[BerryMedPulseOximeterService]
 
-    #         # while pulse_ox_connection.connected:
-    #         #     print(pulse_ox_service.values)
     except connection_error:
         try:
             pulse_ox_connection.disconnect()
