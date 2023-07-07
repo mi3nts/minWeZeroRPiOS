@@ -73,6 +73,11 @@ On the to /boot/config.txt add the following lines `dtoverlay=i2c-gpio,bus=4,i2c
  ```
  sudo nano /boot/config.txt
  ```
+
+
+- Update pi sugar
+``` curl https://cdn.pisugar.com/release/PiSugarUpdate.sh | sudo bash```
+
  
  ```
  
