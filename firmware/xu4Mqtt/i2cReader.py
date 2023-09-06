@@ -34,12 +34,12 @@ bus     = smbus2.SMBus(4)
 
 scd30   = SCD30(bus,debug)
 bme280  = BME280(bus,debug)
-loopInterval = 10 
+loopInterval = 5 
 
 
 def main(loopInterval):
-    scd30_valid    = scd30.initiate(10)
-    bme280_valid   = bme280.initiate(10)
+    scd30_valid    = scd30.initiate(30)
+    bme280_valid   = bme280.initiate(30)
     startTime    = time.time()
     while True:
         try:
