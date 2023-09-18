@@ -38,7 +38,7 @@ class SCD30:
 
     def initiate(self,retriesIn):
         ready = None
-        
+        self.soft_reset()
         while ready is None and retriesIn:
             try:
                 ready = self.get_data_ready()

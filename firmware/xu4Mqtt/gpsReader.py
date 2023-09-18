@@ -13,7 +13,7 @@ from mintsXU4 import mintsDefinitions as mD
 def main():
 
 
-    delta  = .75
+    delta  = .5
     lastGPRMC = time.time()
     lastGPGGA = time.time()
 
@@ -33,13 +33,13 @@ def main():
     gps.send_command(b"PMTK314,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0")
 
     print("Changing Update Frequency")
-    gps.send_command(b"PMTK220,1000")
+    #gps.send_command(b"PMTK220,1000")
 
 
     while True:
         try:  
             if not gps.update() or not gps.has_fix:
-                time.sleep(0.1)
+                time.sleep(0.01)
                 print("No Coordinates found")
                 print(gps.nmea_sentence) 
                 continue
