@@ -125,6 +125,7 @@ def parse_csv_filename(filename):
 def syncData2Influx(nodeID,nodeName):
 
     today = datetime.now().date()
+    print(today)
     # print(dataFolder  + "/" + nodeID + "/" + "/*/*/*/*"+sensorID+"*.csv")
     csvDataFiles = glob.glob(\
                     dataFolder  + "/" +  nodeID + "/*/*/*/*"+nodeID+"*.csv")
@@ -139,7 +140,9 @@ def syncData2Influx(nodeID,nodeName):
         print(csvFile)
         sensorID, fileDate = parse_csv_filename(csvFile)      
         if sensorID is not None:
-            if fileDate is not today:  
+            if fileDate is not today: 
+                print(fileDate)
+
                 # print("================================================")
                 # print("Syncing "+ csvFile)
                 sendCSV2Influx(csvFile,nodeID,sensorID,nodeName)
