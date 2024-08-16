@@ -193,7 +193,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         if not is_connected():
             print("No Connectivity")
             return
-        record_id_date(sensorID, date=fileDate, \
+        record_id_date(sensorID, date=str(fileDate), \
                         filename='influxDateRecords.yaml') # Name should be updated 
 
 
