@@ -194,7 +194,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
             print("No Connectivity")
             return
         record_id_date(sensorID, date=str(fileDate), \
-                        filename='influxDateRecords.yaml') # Name should be updated 
+                        filename='id_date_records.yaml') # Name should be updated 
 
 
     # except Exception as e:
@@ -219,9 +219,11 @@ def save_records(records, filename='id_date_records.yaml'):
 # Add a new date to an ID record, with an optional custom date
 def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
     records = load_records(filename)
-    
+    print(records)
+
     # Ensure the structure is a defaultdict of lists for easier management
-    # records = defaultdict(list, records)
+    records = defaultdict(list, records)
+    print(records)
     
     # Use the provided date or the current date (without time) if not provided
     if date is None:
