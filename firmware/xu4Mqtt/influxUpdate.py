@@ -225,7 +225,7 @@ def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
     
     # Use the provided date or the current date (without time) if not provided
     if date is None:
-        date = datetime.now().strftime('%Y-%m-%d')
+        date = str(datetime.now().strftime('%Y-%m-%d'))
     
     # Check if the ID and date combination already exists
     if check_id_date_exists(id_value, date, records):
