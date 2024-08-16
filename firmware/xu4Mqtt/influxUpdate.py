@@ -1,7 +1,7 @@
 # Import tkinter and webview libraries
-from fileinput import filename
-from tkinter import *
-from traceback import print_stack
+# from fileinput import filename
+# # from tkinter import *
+# from traceback import print_stack
 # import webview
 import glob
 import serial
