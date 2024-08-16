@@ -152,6 +152,7 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName):
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName):
     # try:
+    print(csvFile)
     sequence = []
     tag_columns = ["device_id", "device_name"]
     time_column = "dateTime"
@@ -170,7 +171,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName):
             for header in reader.fieldnames:
                 if header not in tag_columns and header != time_column:
                     point.field(header, isFloat(rowData[header]))
-            print(point)
+            # print(point)
             # sequence.append(point)
 
 
