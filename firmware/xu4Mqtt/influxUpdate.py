@@ -219,16 +219,16 @@ def save_records(records, filename='id_date_records.yaml'):
 # Add a new date to an ID record, with an optional custom date
 def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
     records = load_records(filename)
-    print(records)
+    # print(records)
 
     # Ensure the structure is a defaultdict of lists for easier management
     records = defaultdict(list, records)
-    print(records)
+    # print(records)
     
     # Use the provided date or the current date (without time) if not provided
     if date is None:
         date = str(datetime.now().strftime('%Y-%m-%d'))
-    print(records)
+    # print(records)
 
     # Check if the ID and date combination already exists
     if check_id_date_exists(id_value, date, records):
@@ -237,7 +237,7 @@ def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
     
     # Add the date to the list of dates for this ID
     records[id_value].append(date)
-    print(records)
+    # print(records)
 
 
     save_records(records, filename)
