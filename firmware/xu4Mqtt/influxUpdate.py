@@ -235,10 +235,12 @@ def read_records(filename='id_date_records.yaml'):
             print(f"  Date: {date}")
 
 def getNodeName(nodeID):
-    nodeInfo           = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/id_lookup.csv')
-    nodeIDs            = nodeInfo['mac_address']
-    nodeNames          = nodeInfo['name']
     try:
+        nodeInfo           = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/id_lookup.csv')
+        nodeIDs            = nodeInfo['mac_address']
+        nodeNames          = nodeInfo['name']
+        print(nodeIDs)
+        print(nodeNames)
         matchingIndex = nodeIDs.index(nodeID)
         nodeName= nodeNames[matchingIndex]
         return nodeName
