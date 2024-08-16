@@ -121,7 +121,7 @@ mqttPort              =  8883  # Secure port
 
 gpsPort               = findPort("GPS/GNSS Receiver")
 
-credentials            = yaml.load(open(credentialsFile))
+credentials            = yaml.load(open(credentialsFile), Loader=yaml.Loader)
 
 if __name__ == "__main__":
     # the following code is for debugging
