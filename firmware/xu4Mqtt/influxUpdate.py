@@ -175,7 +175,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName):
                     for header in reader.fieldnames:
                         if header not in tag_columns and header != time_column:
                             point.field(header, isFloat(rowData[header]))
-                    # print(point)
+                    print(point)
                     # sequence.append(point)
                 except ValueError as e:
                     print(f"An error occurred: {e}")
