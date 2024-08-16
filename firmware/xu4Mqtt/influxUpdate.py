@@ -141,7 +141,7 @@ def syncData2Influx(nodeID,nodeName):
         if sensorID is not None:
             if fileDate is not today:  
                 # print("================================================")
-                print("Syncing "+ csvFile)
+                # print("Syncing "+ csvFile)
                 sendCSV2Influx(csvFile,nodeID,sensorID,nodeName)
             else:
                 sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName)
