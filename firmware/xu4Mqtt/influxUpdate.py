@@ -140,7 +140,7 @@ def syncData2Influx(nodeID,nodeName):
         print(csvFile)
         sensorID, fileDate = parse_csv_filename(csvFile)      
         if sensorID is not None:
-            if fileDate is not today: 
+            if fileDate != today: 
                 print(fileDate)
 
                 # print("================================================")
