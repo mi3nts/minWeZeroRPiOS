@@ -116,7 +116,7 @@ def parse_csv_filename(filename):
         year = match.group(4)
         month = match.group(5)
         day = match.group(6)
-        fileDate = datetime(year=int(year), month=int(month), day=int(day))
+        fileDate = datetime(year=int(year), month=int(month), day=int(day)).date()
         return sensorID, fileDate
     else:
         raise ValueError(f"Filename {filename} does not match the expected pattern.")
