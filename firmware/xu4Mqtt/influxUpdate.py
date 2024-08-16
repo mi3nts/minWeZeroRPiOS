@@ -241,7 +241,7 @@ def getNodeName(nodeID):
         nodeNames          = nodeInfo['name']
         print(nodeIDs)
         print(nodeNames)
-        matchingIndex = nodeIDs.index(nodeID)
+        matchingIndex =  nodeIDs.get_loc(nodeID)
         nodeName= nodeNames[matchingIndex]
         return nodeName
     except ValueError:
