@@ -16,7 +16,7 @@ dataFolderReference = mD.dataFolderReference
 macAddress          = mD.macAddress
 mqttPort            = mD.mqttPort
 mqttBroker          = mD.mqttBroker
-mqttCredentialsFile = mD.mqttCredentialsFile
+mqttCredentialsFile = mD.credentialsFile
 
 # FOR MQTT 
 credentials = yaml.load(open(mqttCredentialsFile),Loader=yaml.FullLoader)

@@ -1,6 +1,8 @@
 
 from getmac import get_mac_address
 import serial.tools.list_ports
+import yaml
+
 
 def findPort(find):
     ports = list(serial.tools.list_ports.comports())
@@ -102,13 +104,15 @@ ozonePort             = findOzonePort()
 ipsPorts              = findIPSPorts()
 show2Port             = findPort("CP2104 USB to UART Bridge Controller")
 macAddress            = findMacAddress()
+nodeID                = macAddress
 latestDisplayOn       = False
 latestOn              = True
 airmarPort            = findAirmarPort()
 # For MQTT 
 mqttOn                = True
 
-mqttCredentialsFile   = 'mintsXU4/credentials.yml'
+
+credentialsFile       = 'mintsXU4/credentials.yml'
 hostsFile             = 'mintsXU4/hosts.yml'
 locationsFile         = 'mintsXU4/locations.yml'
 
@@ -117,6 +121,7 @@ mqttPort              =  8883  # Secure port
 
 gpsPort               = findPort("GPS/GNSS Receiver")
 
+credentials            = yaml.load(open(credentialsFile))
 
 if __name__ == "__main__":
     # the following code is for debugging
@@ -130,10 +135,10 @@ if __name__ == "__main__":
     print("Airmar Port           : {0}".format(airmarPort))
     print("Show2 Port           : {0}".format(show2Port))
     print("Latest On            : {0}".format(latestDisplayOn))
-    print("Latest On                  : {0}".format(latestOn))
-    print("MQTT On                    : {0}".format(mqttOn))
-    print("MQTT Credentials File      : {0}".format(mqttCredentialsFile))
-    print("MQTT Broker and Port       : {0}, {1}".format(mqttOn,mqttPort))
+    print("Latest On            : {0}".format(latestOn))
+    print("MQTT On              : {0}".format(mqttOn))
+    print("Credentials File     : {0}".format(credentialsFile))
+    print("MQTT Broker and Port : {0}, {1}".format(mqttOn,mqttPort))
 
     
     #-------------------------------------------#
