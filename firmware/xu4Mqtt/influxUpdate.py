@@ -105,9 +105,9 @@ def isFloat(value):
 def parse_csv_filename(filename):
     # Define a regex pattern to extract parameters
     pattern = re.compile(r'^(\w+)_(\w+)_(\w+)_(\d{4})_(\d{2})_(\d{2})\.csv$')
-    
+    # filename = os.path.basename(path)
     # Match the pattern against the filename
-    match = pattern.match(filename)
+    match = pattern.match(os.path.basename(filename))
     if match:
         # Extract matched groups
         device_type = match.group(1)
@@ -239,8 +239,6 @@ def getNodeName(nodeID):
         nodeInfo           = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/id_lookup.csv')
         nodeIDs            = nodeInfo['mac_address']
         nodeNames          = nodeInfo['name']
-        print(nodeIDs)
-        print(nodeNames)
         matchingIndex = list(nodeIDs).index(nodeID)
         nodeName= nodeNames[matchingIndex]
         return nodeName
