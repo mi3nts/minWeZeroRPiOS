@@ -221,7 +221,7 @@ def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
     records = load_records(filename)
     
     # Ensure the structure is a defaultdict of lists for easier management
-    records = defaultdict(list, records)
+    # records = defaultdict(list, records)
     
     # Use the provided date or the current date (without time) if not provided
     if date is None:
