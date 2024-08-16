@@ -154,7 +154,9 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
    
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
-    try:
+    # try:
+    while True:
+
         # print(csvFile)
         if not is_connected():
             print("No Connectivity")
@@ -195,9 +197,9 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                         filename='influxDateRecords.yaml') # Name should be updated 
 
 
-    except Exception as e:
-        print(rowData)
-        print(f"An error occurred: {e}")
+    # except Exception as e:
+    #     print(rowData)
+    #     print(f"An error occurred: {e}")
 
 
 # Load existing records or create a new structure
