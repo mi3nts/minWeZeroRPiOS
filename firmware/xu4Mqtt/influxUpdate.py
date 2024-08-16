@@ -151,34 +151,38 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName):
    
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName):
-    # try:
-    # print(csvFile)
-    sequence = []
-    tag_columns = ["device_id", "device_name"]
-    time_column = "dateTime"
+    try:
+        # print(csvFile)
+        sequence = []
+        tag_columns = ["device_id", "device_name"]
+        time_column = "dateTime"
 
-    with open(csvFile, "r") as f:
-        reader            = csv.DictReader((line.replace('\0','') for line in f) )
-        rowList           = list(reader)
-        for rowData in rowList:
-            dateTimeRow = datetime.strptime(rowData['dateTime'],'%Y-%m-%d %H:%M:%S.%f')
-            point = Point(sensorID)  # Replace with your measurement name
-            point.tag("device_id", nodeID)
-            point.tag("device_name", nodeName)
-            point.time(dateTimeRow, WritePrecision.NS) 
-            # print(point)
-            # Dynamically add fields based on the headers
-            for header in reader.fieldnames:
-                if header not in tag_columns and header != time_column:
-                    point.field(header, isFloat(rowData[header]))
-            # print(point)
-            # sequence.append(point)
+        with open(csvFile, "r") as f:
+            reader            = csv.DictReader((line.replace('\0','') for line in f) )
+            rowList           = list(reader)
+            for rowData in rowList:
+                dateTimeRow = datetime.strptime(rowData['dateTime'],'%Y-%m-%d %H:%M:%S.%f')
+                point = Point(sensorID)  # Replace with your measurement name
+                point.tag("device_id", nodeID)
+                point.tag("device_name", nodeName)
+                point.time(dateTimeRow, WritePrecision.NS) 
+                # print(point)
+                # Dynamically add fields based on the headers
+                for header in reader.fieldnames:
+                    if header not in tag_columns and header != time_column:
+                        point.field(header, isFloat(rowData[header]))
+                # print(point)
+                # sequence.append(point)
 
 
 
         # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
         #     write_api = client.write_api(write_options=SYNCHRONOUS)
         #     write_api.write(influxBucket, influxOrg, sequence)
+    except Exception as e:
+        print(rowData)
+        print(f"An error occurred: {e}")
+
 
 # Load existing records or create a new structure
 def load_records(filename='id_date_records.yaml'):
