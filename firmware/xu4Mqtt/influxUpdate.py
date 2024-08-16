@@ -152,7 +152,7 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName):
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName):
     # try:
-    print(csvFile)
+    # print(csvFile)
     sequence = []
     tag_columns = ["device_id", "device_name"]
     time_column = "dateTime"
