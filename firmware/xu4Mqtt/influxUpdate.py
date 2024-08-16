@@ -145,17 +145,21 @@ def syncData2Influx(nodeID,nodeName):
 
                 # print("================================================")
                 # print("Syncing "+ csvFile)
-                sendCSV2Influx(csvFile,nodeID,sensorID,nodeName)
+                sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate)
             else:
-                sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName)
+                sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate)
 
-def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName):
+def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
     print("Its todays data")
    
 
-def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName):
+def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
     try:
         # print(csvFile)
+        if not is_connected():
+            print("No Connectivity")
+            return 
+        
         sequence = []
         tag_columns = ["device_id", "device_name"]
         time_column = "dateTime"
@@ -184,6 +188,13 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName):
         # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
         #     write_api = client.write_api(write_options=SYNCHRONOUS)
         #     write_api.write(influxBucket, influxOrg, sequence)
+        if not is_connected():
+            print("No Connectivity")
+            return
+        record_id_date(sensorID, date=fileDate, \
+                        filename='influxDateRecords.yaml') # Name should be updated 
+
+
     except Exception as e:
         print(rowData)
         print(f"An error occurred: {e}")
