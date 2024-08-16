@@ -214,7 +214,7 @@ def load_records(filename='id_date_records.yaml'):
 # Save records to the YAML file
 def save_records(records, filename='id_date_records.yaml'):
     with open(filename, 'w') as file:
-        yaml.safe_dump(records, file)
+        yaml.safe_dump(dict(records), file)
 
 # Add a new date to an ID record, with an optional custom date
 def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
