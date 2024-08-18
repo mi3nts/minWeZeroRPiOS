@@ -144,8 +144,7 @@ def syncData2Influx(nodeID,nodeName):
         sensorID, fileDate = parse_csv_filename(csvFile)      
         if sensorID is not None:
             if fileDate != today: 
-                print(fileDate)
-
+                # print(fileDate)
                 # print("================================================")
                 # print("Syncing "+ csvFile)
                 sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate)
@@ -246,6 +245,8 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         tag_columns = ["device_id", "device_name"]
         time_column = "dateTime"
         currentRecord = read_records(dataFileInflux)
+        print("sendCSV2Influx")
+        print(currentRecord)
 
         with open(csvFile, "r") as f:
             reader            = csv.DictReader((line.replace('\0','') for line in f) )
