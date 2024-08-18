@@ -148,8 +148,85 @@ def syncData2Influx(nodeID,nodeName):
             else:
                 sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate)
 
+def writeJSONInfluxLatest(dateTime,sensorID):
+    directoryIn  = dataFolder+"/"+nodeID+"/"+sensorID+"_influx_sync.json"
+    print(directoryIn)
+
+    dateTimeStr = dateTime.isoformat()
+    # Add a directory check 
+    try:
+        with open(directoryIn, 'w') as json_file:
+            json.dump(dateTimeStr, json_file, indent=4)
+    except:
+        print("Json Data Not Written")
+
+def readInfluxLatest(sensorID):
+    directoryIn  = dataFolder+"/"+nodeID+"/"+sensorID+"_influx_sync.json"
+    # print(directoryIn)
+    # # Add a directory check 
+
+    try:
+        with open( directoryIn, 'r') as json_file:
+            datetime_str = json.load(json_file)
+
+        # Convert the string back to a datetime object
+        dateTimeRead = datetime.fromisoformat(datetime_str)
+        return dateTimeRead
+    except:
+        return;
+        print("Json Data Not Written")
+
 def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
     print("Its todays data")
+    # try:
+    # # while True:
+    #     # print(csvFile)
+    #     if not is_connected():
+    #         print("No Connectivity")
+    #         return 
+        
+    #     sequence = []
+    #     tag_columns  = ["device_id", "device_name"]
+    #     time_column  = "dateTime"
+    #     lastDateTime = read_records(dataFileInflux)
+
+    #     with open(csvFile, "r") as f:
+    #         reader            = csv.DictReader((line.replace('\0','') for line in f) )
+    #         rowList           = list(reader)
+    #         for rowData in rowList:
+    #             try:
+    #                 dateTimeRow = datetime.strptime(rowData['dateTime'],'%Y-%m-%d %H:%M:%S.%f')
+    #                 point = Point(sensorID)  # Replace with your measurement name
+    #                 point.tag("device_id", nodeID)
+    #                 point.tag("device_name", nodeName)
+    #                 point.time(dateTimeRow, WritePrecision.NS) 
+    #                 # print(point)
+    #                 # Dynamically add fields based on the headers
+    #                 for header in reader.fieldnames:
+    #                     if header not in tag_columns and header != time_column:
+    #                         point.field(header, isFloat(rowData[header]))
+    #                 # print(point)
+    #                 sequence.append(point)
+    #             except ValueError as e:
+    #                 print(f"-- An error occurred --: {e}")
+
+
+        # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
+        #     write_api = client.write_api(write_options=SYNCHRONOUS)
+        #     write_api.write(influxBucket, influxOrg, sequence)
+        
+        if not is_connected():
+            print("No Connectivity")
+            return False;
+
+        record_id_date(sensorID, date=str(fileDate), \
+                        filename=dataFileInflux) # Name should be updated 
+
+        return True; 
+
+    except Exception as e:
+        print(rowData)
+        print(f"An error occurred: {e}")
    
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
