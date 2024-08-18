@@ -249,7 +249,6 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         tag_columns = ["device_id", "device_name"]
         time_column = "dateTime"
         currentRecord = read_records(dataFileInflux)
-        print("sendCSV2Influx")
         print(currentRecord)
 
         with open(csvFile, "r") as f:
@@ -358,10 +357,10 @@ def check_id_date_exists(id_value, date, records=None, filename='id_date_records
 # Read and print all records
 def read_records(filename='id_date_records.yaml'):
     records = load_records(filename)
-    for id_value, dates in records.items():
-        print(f"ID: {id_value}")
-        for date in dates:
-            print(f"  Date: {date}")
+    # for id_value, dates in records.items():
+    #     print(f"ID: {id_value}")
+    #     for date in dates:
+    #         print(f"  Date: {date}")
     return records;
 
 def getNodeName(nodeID):
