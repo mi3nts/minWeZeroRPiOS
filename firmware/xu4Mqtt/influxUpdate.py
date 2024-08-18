@@ -182,7 +182,10 @@ def readInfluxLatest(sensorID):
        
 
 def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
-    print("Its todays data")
+    print()
+    print("--------------")
+    print("send CSV2 Influx Today")
+    print(csvFile)
     try:
         if not is_connected():
             print("No Connectivity")
@@ -215,9 +218,9 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                     print(f"-- An error occurred --: {e}")
 
 
-        with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
-            write_api = client.write_api(write_options=SYNCHRONOUS)
-            write_api.write(influxBucket, influxOrg, sequence)
+        # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
+        #     write_api = client.write_api(write_options=SYNCHRONOUS)
+        #     write_api.write(influxBucket, influxOrg, sequence)
         
         if not is_connected():
             print("No Connectivity")
@@ -236,7 +239,8 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
     print()
     print("--------------")
     print("sendCSV2Influx")
-    
+    print(csvFile)
+
     try:
     # while True:
 
@@ -376,7 +380,7 @@ def getNodeName(nodeID):
 
 def delayMintsV2(startTime,loopTime):
     currentTime = time.time() 
-    timeSpent   = time.time() - startTime 
+    timeSpent   = currentTime - startTime 
     if(loopTime>timeSpent):
         waitTime = loopTime - timeSpent;
         time.sleep(waitTime);
