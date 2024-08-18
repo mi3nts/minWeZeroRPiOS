@@ -36,8 +36,8 @@ import socket
 from datetime import date, timedelta, datetime
 from mintsXU4 import mintsDefinitions as mD
 
+# This will run continously
 
-# This will run continously - 
 # Steps 
 #   1) Collects all csvs it can find 
 #   2) For each csv it checks if it has already synced - 
@@ -52,17 +52,16 @@ from mintsXU4 import mintsDefinitions as mD
     # How often to send 
     # Check if already synced 
 
+# nodeInfo         = mD.nodeInfo
+# sensorInfo       = mD.sensorInfo
 
-
-# nodeInfo           = mD.nodeInfo
-# sensorInfo         = mD.sensorInfo
-
-# nodeInfo             = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/id_lookup.csv')
-# sensorInfo                = pd.read_csv('https://raw.githubusercontent.com/mi3nts/mqttSubscribersV2/main/lists/sensorIDs.csv')
-
+# nodeInfo         = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/id_lookup.csv')
+# sensorInfo       = pd.read_csv('https://raw.githubusercontent.com/mi3nts/mqttSubscribersV2/main/lists/sensorIDs.csv')
 
 dataFolder         = mD.dataFolder
+
 nodeID             = mD.nodeID
+dataFileInflux     = dataFolder + "/" + nodeID + ".yaml"
 
 # sensorIDs          = sensorInfo['sensorID']
 credentials        = mD.credentials
@@ -165,6 +164,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         sequence = []
         tag_columns = ["device_id", "device_name"]
         time_column = "dateTime"
+        currentRecord = read_records(dataFileInflux)
 
         with open(csvFile, "r") as f:
             reader            = csv.DictReader((line.replace('\0','') for line in f) )
@@ -182,7 +182,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                         if header not in tag_columns and header != time_column:
                             point.field(header, isFloat(rowData[header]))
                     # print(point)
-                    # sequence.append(point)
+                    sequence.append(point)
                 except ValueError as e:
                     print(f"-- An error occurred --: {e}")
 
@@ -190,12 +190,15 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
         #     write_api = client.write_api(write_options=SYNCHRONOUS)
         #     write_api.write(influxBucket, influxOrg, sequence)
+        
         if not is_connected():
             print("No Connectivity")
-            return
-        record_id_date(sensorID, date=str(fileDate), \
-                        filename='id_date_records.yaml') # Name should be updated 
+            return False;
 
+        record_id_date(sensorID, date=str(fileDate), \
+                        filename=dataFileInflux) # Name should be updated 
+
+        return True; 
 
     except Exception as e:
         print(rowData)
@@ -215,6 +218,16 @@ def load_records(filename='id_date_records.yaml'):
 def save_records(records, filename='id_date_records.yaml'):
     with open(filename, 'w') as file:
         yaml.safe_dump(dict(records), file)
+
+
+# Read and print all records
+def read_records(filename='id_date_records.yaml'):
+    records = load_records(filename)
+    for id_value, dates in records.items():
+        print(f"ID: {id_value}")
+        for date in dates:
+            print(f"  Date: {date}")
+
 
 # Add a new date to an ID record, with an optional custom date
 def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
@@ -263,6 +276,7 @@ def read_records(filename='id_date_records.yaml'):
         print(f"ID: {id_value}")
         for date in dates:
             print(f"  Date: {date}")
+    return records;
 
 def getNodeName(nodeID):
     try:
