@@ -233,6 +233,10 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
    
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
+    print()
+    print("--------------")
+    print("sendCSV2Influx")
+    
     try:
     # while True:
 
