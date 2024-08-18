@@ -215,18 +215,18 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
         #     write_api = client.write_api(write_options=SYNCHRONOUS)
         #     write_api.write(influxBucket, influxOrg, sequence)
         
-        if not is_connected():
-            print("No Connectivity")
-            return False;
+    #     if not is_connected():
+    #         print("No Connectivity")
+    #         return False;
 
-        record_id_date(sensorID, date=str(fileDate), \
-                        filename=dataFileInflux) # Name should be updated 
+    #     record_id_date(sensorID, date=str(fileDate), \
+    #                     filename=dataFileInflux) # Name should be updated 
 
-        return True; 
+    #     return True; 
 
-    except Exception as e:
-        print(rowData)
-        print(f"An error occurred: {e}")
+    # except Exception as e:
+    #     print(rowData)
+    #     print(f"An error occurred: {e}")
    
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
