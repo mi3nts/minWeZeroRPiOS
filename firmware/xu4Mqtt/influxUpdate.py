@@ -173,60 +173,59 @@ def readInfluxLatest(sensorID):
         dateTimeRead = datetime.fromisoformat(datetime_str)
         return dateTimeRead
     except:
-        return;
+    
         print("Json Data Not Written")
+        return datetime(1970, 1, 1, 0, 0, 0)
+       
 
 def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
     print("Its todays data")
-    # try:
-    # # while True:
-    #     # print(csvFile)
-    #     if not is_connected():
-    #         print("No Connectivity")
-    #         return 
+    try:
+        if not is_connected():
+            print("No Connectivity")
+            return 
         
-    #     sequence = []
-    #     tag_columns  = ["device_id", "device_name"]
-    #     time_column  = "dateTime"
-    #     lastDateTime = read_records(dataFileInflux)
+        sequence = []
+        tag_columns  = ["device_id", "device_name"]
+        time_column  = "dateTime"
+        lastDateTime = readInfluxLatest(sensorID)
 
-    #     with open(csvFile, "r") as f:
-    #         reader            = csv.DictReader((line.replace('\0','') for line in f) )
-    #         rowList           = list(reader)
-    #         for rowData in rowList:
-    #             try:
-    #                 dateTimeRow = datetime.strptime(rowData['dateTime'],'%Y-%m-%d %H:%M:%S.%f')
-    #                 point = Point(sensorID)  # Replace with your measurement name
-    #                 point.tag("device_id", nodeID)
-    #                 point.tag("device_name", nodeName)
-    #                 point.time(dateTimeRow, WritePrecision.NS) 
-    #                 # print(point)
-    #                 # Dynamically add fields based on the headers
-    #                 for header in reader.fieldnames:
-    #                     if header not in tag_columns and header != time_column:
-    #                         point.field(header, isFloat(rowData[header]))
-    #                 # print(point)
-    #                 sequence.append(point)
-    #             except ValueError as e:
-    #                 print(f"-- An error occurred --: {e}")
+        with open(csvFile, "r") as f:
+            reader            = csv.DictReader((line.replace('\0','') for line in f) )
+            rowList           = list(reader)
+            for rowData in rowList:
+                try:
+                    dateTimeRow = datetime.strptime(rowData['dateTime'],'%Y-%m-%d %H:%M:%S.%f')
+                    point = Point(sensorID)  # Replace with your measurement name
+                    point.tag("device_id", nodeID)
+                    point.tag("device_name", nodeName)
+                    point.time(dateTimeRow, WritePrecision.NS) 
+                    # print(point)
+                    # Dynamically add fields based on the headers
+                    for header in reader.fieldnames:
+                        if header not in tag_columns and header != time_column:
+                            point.field(header, isFloat(rowData[header]))
+                    # print(point)
+                    sequence.append(point)
+                except ValueError as e:
+                    print(f"-- An error occurred --: {e}")
 
 
-        # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
-        #     write_api = client.write_api(write_options=SYNCHRONOUS)
-        #     write_api.write(influxBucket, influxOrg, sequence)
+        with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
+            write_api = client.write_api(write_options=SYNCHRONOUS)
+            write_api.write(influxBucket, influxOrg, sequence)
         
-    #     if not is_connected():
-    #         print("No Connectivity")
-    #         return False;
+        if not is_connected():
+            print("No Connectivity")
+            return False;
 
-    #     record_id_date(sensorID, date=str(fileDate), \
-    #                     filename=dataFileInflux) # Name should be updated 
+        writeJSONInfluxLatest(dateTimeRow,sensorID)
 
-    #     return True; 
+        return True; 
 
-    # except Exception as e:
-    #     print(rowData)
-    #     print(f"An error occurred: {e}")
+    except Exception as e:
+        print(rowData)
+        print(f"An error occurred: {e}")
    
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
