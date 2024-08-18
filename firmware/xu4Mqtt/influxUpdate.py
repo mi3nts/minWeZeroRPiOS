@@ -77,6 +77,10 @@ print()
 
 delta      = timedelta(days=1)
 
+# Check every 5 minutes
+loopTime   =  300
+
+
 def directoryCheckV2(outputPath):
     isFile = os.path.isfile(outputPath)
     if isFile:
@@ -196,17 +200,18 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
             for rowData in rowList:
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'],'%Y-%m-%d %H:%M:%S.%f')
-                    point = Point(sensorID)  # Replace with your measurement name
-                    point.tag("device_id", nodeID)
-                    point.tag("device_name", nodeName)
-                    point.time(dateTimeRow, WritePrecision.NS) 
-                    # print(point)
-                    # Dynamically add fields based on the headers
-                    for header in reader.fieldnames:
-                        if header not in tag_columns and header != time_column:
-                            point.field(header, isFloat(rowData[header]))
-                    # print(point)
-                    sequence.append(point)
+                    if dateTimeRow> lastDateTime:
+                        point = Point(sensorID)  # Replace with your measurement name
+                        point.tag("device_id", nodeID)
+                        point.tag("device_name", nodeName)
+                        point.time(dateTimeRow, WritePrecision.NS) 
+                        # print(point)
+                        # Dynamically add fields based on the headers
+                        for header in reader.fieldnames:
+                            if header not in tag_columns and header != time_column:
+                                point.field(header, isFloat(rowData[header]))
+                        # print(point)
+                        sequence.append(point)
                 except ValueError as e:
                     print(f"-- An error occurred --: {e}")
 
@@ -364,8 +369,16 @@ def getNodeName(nodeID):
         return nodeName
     except ValueError:
         return None
-    
-    
+
+def delayMintsV2(startTime,loopTime):
+    currentTime = time.time() 
+    timeSpent   = time.time() - startTime 
+    if(loopTime>timeSpent):
+        waitTime = loopTime - timeSpent;
+        time.sleep(waitTime);
+    return currentTime;
+
+
 def is_connected(hostname="www.google.com"):
     try:
         # Connect to the host -- tells us if the host is actually reachable
@@ -381,15 +394,21 @@ else:
 
 def main():    
     # At this point just check for the node name via internet 
-    if is_connected():
-        nodeName = getNodeName(nodeID)
-        if nodeName is not None:
-            syncData2Influx(nodeID,nodeName)
-            # print(f"Index: {index}, Node ID: {nodeID}, Node Name: {nodeName}")
-            # for sensorID in sensorIDs:
-            #     # print("Sending data to Influx for Node ID: " + nodeID + ", Node Name: " + nodeName + ", Sensor ID: " +sensorID) 
-            #     syncData2Influx(nodeID,nodeName,sensorID)
-    time.sleep(5) # This should be a smarter function
+    syncTime = time.time()
+    while True:
+        if is_connected():
+            nodeName = getNodeName(nodeID)
+            if nodeName is not None:
+                syncData2Influx(nodeID,nodeName)
+                syncTime = delayMintsV2(syncTime,loopTime) 
+                # print(f"Index: {index}, Node ID: {nodeID}, Node Name: {nodeName}")
+                # for sensorID in sensorIDs:
+                #   print("Sending data to Influx for Node ID: " + nodeID + ", Node Name: " + nodeName + ", Sensor ID: " +sensorID) 
+                #   syncData2Influx(nodeID,nodeName,sensorID)
+            
+        else:
+            time.sleep(60)
+        
 
 if __name__ == "__main__":
     print("=============")
