@@ -249,8 +249,6 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
     print(csvFile)
 
 
-
-
     try:
     # while True:
 
