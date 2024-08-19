@@ -299,8 +299,8 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
 
                 try:
                     if (i + 1) % batchSize == 0 or i == len(rowList) - 1:
-                        rowNum = i+1
-                        print("Syncing Row: "+ str(rowNum))
+                        # rowNum = i+1
+                        print(i+1)
                         with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
                             write_api = client.write_api(write_options=SYNCHRONOUS)
                             write_api.write(influxBucket, influxOrg, sequence)
