@@ -101,8 +101,13 @@ def directoryCheckV2(outputPath):
 
 
 def isFloat(value):
-    # When its a an empty value - Send a string 
+    # When its a an empty value - Send a string
+    # 
+    
     try:
+        if value.strip() == '':
+            return None
+
         output = float(value)
 
         return output
