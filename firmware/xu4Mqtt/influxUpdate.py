@@ -288,9 +288,9 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                     print(f"-- An error occurred --: {e}")
                     traceback.print_exc()
                 if (i + 1) % batchSize == 0 or i == len(rowList) - 1:
-                    # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
-                    #     write_api = client.write_api(write_options=SYNCHRONOUS)
-                    #     write_api.write(influxBucket, influxOrg, sequence)
+                    with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
+                        write_api = client.write_api(write_options=SYNCHRONOUS)
+                        write_api.write(influxBucket, influxOrg, sequence)
                     sequence.clear()
 
         
