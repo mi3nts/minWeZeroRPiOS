@@ -219,10 +219,10 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                     # print(dateTimeRow)
                     # print(lastDateTime<dateTimeRow)
                     if lastDateTime<dateTimeRow:
-                        print(lastDateTime)
-                        print(dateTimeRow)
-                        print(lastDateTime<dateTimeRow)
-                        print("New Live data found")
+                        # print(lastDateTime)
+                        # print(dateTimeRow)
+                        # print(lastDateTime<dateTimeRow)
+                        # print("New Live data found")
                         point = Point(sensorID)
                         point.tag("device_id", nodeID)
                         point.tag("device_name", nodeName)
@@ -242,8 +242,8 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                 # len(sequence) > 0
                 if ((i + 1) % batchSize == 0 or i == len(rowList) - 1) and len(sequence) > 0 :
                     try:
-                        print(len(sequence))
-                        len(sequence) > 0
+                        # print(len(sequence))
+                        # len(sequence) > 0
                         print(i+1)
                         with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
                             write_api = client.write_api(write_options=SYNCHRONOUS)
