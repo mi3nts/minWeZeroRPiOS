@@ -325,7 +325,8 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         return True; 
 
     except Exception as e:
-        print(rowData)
+        # print(rowData)
+        print(point)
         print(f"An error occurred: {e}")
         traceback.print_exc()
 
