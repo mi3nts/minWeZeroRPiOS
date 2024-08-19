@@ -215,9 +215,9 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
             for i, rowData in enumerate(rowList):
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
-                    print(lastDateTime)
-                    print(dateTimeRow)
-                    print(lastDateTime<dateTimeRow)
+                    # print(lastDateTime)
+                    # print(dateTimeRow)
+                    # print(lastDateTime<dateTimeRow)
                     if lastDateTime<dateTimeRow:
                         # print("New Live data found")
                         point = Point(sensorID)
@@ -235,7 +235,7 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                     print(f"-- An error occurred --: {e}")
                     traceback.print_exc()
 
-                print(len(sequence) )
+                # print(len(sequence) )
                 if (i + 1) % batchSize == 0 or i == len(rowList) - 1 and len(sequence) > 0 :
                     try:
                         print(i+1)
