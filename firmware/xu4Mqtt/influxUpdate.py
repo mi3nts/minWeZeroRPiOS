@@ -216,7 +216,7 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
                     if lastDateTime<dateTimeRow:
-                        print("New Live data found")
+                        # print("New Live data found")
                         point = Point(sensorID)
                         point.tag("device_id", nodeID)
                         point.tag("device_name", nodeName)
