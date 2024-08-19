@@ -248,6 +248,9 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
     print("sendCSV2Influx")
     print(csvFile)
 
+
+
+
     try:
     # while True:
 
@@ -260,6 +263,12 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         tag_columns = ["device_id", "device_name"]
         time_column = "dateTime"
         currentRecord = read_records(dataFileInflux)
+
+
+        if check_id_date_exists(sensorID, fileDate, currentRecord, dataFileInflux):
+            print("File already synced")
+            print()
+            return; 
         # At this point I need the date from the csv file 
         # print(currentRecord)
 
