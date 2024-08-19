@@ -288,7 +288,10 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                     point.time(dateTimeRow, WritePrecision.NS)
                     for header in reader.fieldnames:
                         if header not in tag_columns and header != time_column:
-                            point.field(header, isFloat(rowData[header]))
+                            if sensorID == "MWBR001" and header == "rtcTime":
+                                point.field(header, str(rowData[header]))
+                            else:
+                                point.field(header, isFloat(rowData[header]))
                     sequence.append(point)
                 except ValueError as e:
                     print(f"-- An error occurred --: {e}")
