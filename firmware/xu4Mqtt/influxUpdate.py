@@ -238,8 +238,8 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                     print(f"-- An error occurred --: {e}")
                     traceback.print_exc()
 
-                print(len(sequence))
-                len(sequence) > 0
+                # print(len(sequence))
+                # len(sequence) > 0
                 if (i + 1) % batchSize == 0 or i == len(rowList) - 1 and len(sequence) > 0 :
                     try:
                         print(len(sequence))
