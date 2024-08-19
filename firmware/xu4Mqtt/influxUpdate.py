@@ -72,7 +72,7 @@ influxOrg          = credentials['influx']['org']
 influxBucket       = credentials['influx']['bucket'] 
 influxURL          = credentials['influx']['url']
 
-batchSize          = 1000
+batchSize          = 500
 
 print()
 print("MINTS")
