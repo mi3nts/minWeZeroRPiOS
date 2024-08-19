@@ -289,7 +289,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                     for header in reader.fieldnames:
                         if header not in tag_columns and header != time_column:
                             if sensorID == "MWBR001" and header == "rtcTime":
-                                point.field(header, str(rowData[header]))
+                                point.field(header, float(dateTimeRow.year))
                             else:
                                 point.field(header, isFloat(rowData[header]))
                     sequence.append(point)
