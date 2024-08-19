@@ -366,9 +366,14 @@ def record_id_date(id_value, date=None, filename='id_date_records.yaml'):
 
 # Check if a specific ID and date combination exists
 def check_id_date_exists(id_value, date, records=None, filename='id_date_records.yaml'):
+
     if records is None:
         records = load_records(filename)
     
+    print(records)
+    print(id_value)
+    print(records[id_value])
+    print(date in records[id_value])
     # Check if the ID exists and the date is in the list for that ID
     if id_value in records and date in records[id_value]:
         return True
