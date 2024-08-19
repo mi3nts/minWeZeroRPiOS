@@ -72,7 +72,7 @@ influxOrg          = credentials['influx']['org']
 influxBucket       = credentials['influx']['bucket'] 
 influxURL          = credentials['influx']['url']
 
-batchSize          = 1000
+batchSize          = 500
 
 print()
 print("MINTS")
@@ -190,6 +190,7 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
     print("--------------")
     print("send CSV2 Influx Today")
     print(csvFile)
+    time.sleep(1)
     # try:
     #     if not is_connected():
     #         print("No Connectivity")
@@ -292,7 +293,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                         write_api = client.write_api(write_options=SYNCHRONOUS)
                         write_api.write(influxBucket, influxOrg, sequence)
                     sequence.clear()
-
+                    time.sleep(1)
         
         if not is_connected():
             print("No Connectivity")
