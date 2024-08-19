@@ -62,7 +62,7 @@ from mintsXU4 import mintsDefinitions as mD
 dataFolder         = mD.dataFolder
 
 nodeID             = mD.nodeID
-dataFileInflux     = dataFolder + "/" + nodeID + ".yaml"
+dataFileInflux     = dataFolder + "/" + nodeID + "/" + nodeID + ".yaml"
 
 # sensorIDs          = sensorInfo['sensorID']
 credentials        = mD.credentials
@@ -111,7 +111,7 @@ def isFloat(value):
         output = float(value)
 
         return output
-    except ValueError:
+    except Exception as e:
         return value
 
 def parse_csv_filename(filename):
@@ -172,7 +172,9 @@ def writeJSONInfluxLatest(dateTime,sensorID):
     except:
         print("Json Data Not Written")
 
-def readInfluxLatest(sensorID):
+
+
+def readJSONInfluxLatest(sensorID):
     directoryIn  = dataFolder+"/"+nodeID+"/"+sensorID+"_influx_sync.json"
     # print(directoryIn)
     # # Add a directory check 
@@ -196,56 +198,66 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
     print("send CSV2 Influx Today")
     print(csvFile)
     time.sleep(1)
-    # try:
-    #     if not is_connected():
-    #         print("No Connectivity")
-    #         return 
+    try:
+        if not is_connected():
+            print("No Connectivity")
+            return 
         
-    #     sequence = []
-    #     tag_columns  = ["device_id", "device_name"]
-    #     time_column  = "dateTime"
-    #     lastDateTime = readInfluxLatest(sensorID)
-
-    #     with open(csvFile, "r") as f:
-    #         reader            = csv.DictReader((line.replace('\0','') for line in f) )
-    #         rowList           = list(reader)
-    #         for i, rowData in enumerate(rowList):
-    #             try:
-    #                 dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
-    #                 point = Point(sensorID)
-    #                 point.tag("device_id", nodeID)
-    #                 point.tag("device_name", nodeName)
-    #                 point.time(dateTimeRow, WritePrecision.NS)
-    #                 for header in reader.fieldnames:
-    #                     if header not in tag_columns and header != time_column:
-    #                         point.field(header, isFloat(rowData[header]))
-    #                 sequence.append(point)
-    #             except ValueError as e:
-    #                 print(f"-- An error occurred --: {e}")
-    #                 traceback.print_exc()
-
-    #             if (i + 1) % batchSize == 0 or i == len(rowList) - 1:
-    #                 # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
-    #                 #     write_api = client.write_api(write_options=SYNCHRONOUS)
-    #                 #     write_api.write(influxBucket, influxOrg, sequence)
-    #                 sequence.clear()
+        sequence = []
+        tag_columns  = ["device_id", "device_name"]
+        time_column  = "dateTime"
+        lastDateTime = readJSONInfluxLatest(sensorID)
 
 
-    #     # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
-    #     #     write_api = client.write_api(write_options=SYNCHRONOUS)
-    #     #     write_api.write(influxBucket, influxOrg, sequence)
-        
-    #     if not is_connected():
-    #         print("No Connectivity")
-    #         return False;
+        with open(csvFile, "r") as f:
+            reader            = csv.DictReader((line.replace('\0','') for line in f) )
+            rowList           = list(reader)
+            for i, rowData in enumerate(rowList):
+                try:
+                    dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
+                    if lastDateTime<dateTimeRow:
+                        print("New Live data found")
+                        point = Point(sensorID)
+                        point.tag("device_id", nodeID)
+                        point.tag("device_name", nodeName)
+                        point.time(dateTimeRow, WritePrecision.NS)
+                        for header in reader.fieldnames:
+                            if header not in tag_columns and header != time_column:
+                                if sensorID == "MWBR001" and header == "rtcTime":
+                                    point.field(header, float(dateTimeRow.year))
+                                else:
+                                    point.field(header, isFloat(rowData[header]))
+                        sequence.append(point)
+                except Exception as e:
+                    print(f"-- An error occurred --: {e}")
+                    traceback.print_exc()
 
-    #     writeJSONInfluxLatest(dateTimeRow,sensorID)
+                
+                if (i + 1) % batchSize == 0 or i == len(rowList) - 1 and len(sequence) > 0 :
+                    try:
+                        print(i+1)
+                        with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
+                            write_api = client.write_api(write_options=SYNCHRONOUS)
+                            write_api.write(influxBucket, influxOrg, sequence)
+                        sequence.clear()
+                        time.sleep(.1)
 
-    #     return True; 
+                    except Exception as e:
+                        print(f"-- An error occurred --: {e}")
+                        traceback.print_exc()
+                        sequence.clear()
 
-    # except Exception as e:
-    #     print(rowData)
-    #     print(f"An error occurred: {e}")
+        if not is_connected():
+            print("No Connectivity")
+            return False;
+
+        writeJSONInfluxLatest(dateTimeRow,sensorID)
+
+        return True; 
+
+    except Exception as e:
+        print(rowData)
+        print(f"An error occurred: {e}")
    
 
 def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
@@ -334,7 +346,7 @@ def load_records(filename='id_date_records.yaml'):
     try:
         with open(filename, 'r') as file:
             records = yaml.safe_load(file) or {}
-    except FileNotFoundError:
+    except Exception as e:
         records = {}
     return records
 
@@ -412,7 +424,7 @@ def getNodeName(nodeID):
         matchingIndex = list(nodeIDs).index(nodeID)
         nodeName= nodeNames[matchingIndex]
         return nodeName
-    except ValueError:
+    except Exception as e:
         return None
 
 def delayMintsV2(startTime,loopTime):
@@ -429,7 +441,7 @@ def is_connected(hostname="www.google.com"):
         # Connect to the host -- tells us if the host is actually reachable
         socket.create_connection((hostname, 80), 2)
         return True
-    except OSError:
+    except Exception as e:
         return False
 
 if is_connected():
