@@ -132,7 +132,7 @@ def parse_csv_filename(filename):
 def syncData2Influx(nodeID,nodeName):
 
     today = datetime.now().date()
-    print(today)
+    # print(today)
     # print(dataFolder  + "/" + nodeID + "/" + "/*/*/*/*"+sensorID+"*.csv")
     csvDataFiles = glob.glob(\
                     dataFolder  + "/" +  nodeID + "/*/*/*/*"+nodeID+"*.csv")
@@ -144,7 +144,7 @@ def syncData2Influx(nodeID,nodeName):
     # again witin a while loop you check for a new time  
 
     for csvFile in csvDataFiles:
-        print(csvFile)
+        # print(csvFile)
         sensorID, fileDate = parse_csv_filename(csvFile)      
         if sensorID is not None:
             if fileDate != today: 
@@ -261,7 +261,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         time_column = "dateTime"
         currentRecord = read_records(dataFileInflux)
         # At this point I need the date from the csv file 
-        print(currentRecord)
+        # print(currentRecord)
 
         with open(csvFile, "r") as f:
             reader            = csv.DictReader((line.replace('\0','') for line in f) )
@@ -291,6 +291,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
             print("No Connectivity")
             return False;
 
+        print("Record ID Date")
         record_id_date(sensorID, date=str(fileDate), \
                         filename=dataFileInflux) # Name should be updated 
 
