@@ -262,6 +262,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         time_column = "dateTime"
         currentRecord = read_records(dataFileInflux)
 
+        print(check_id_date_exists(sensorID, fileDate, currentRecord, dataFileInflux))
 
         if check_id_date_exists(sensorID, fileDate, currentRecord, dataFileInflux):
             print("File already synced")
