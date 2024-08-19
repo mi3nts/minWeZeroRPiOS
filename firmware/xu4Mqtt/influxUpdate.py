@@ -71,6 +71,8 @@ influxOrg          = credentials['influx']['org']
 influxBucket       = credentials['influx']['bucket'] 
 influxURL          = credentials['influx']['url']
 
+batchSize          = 1000
+
 print()
 print("MINTS")
 print()
@@ -260,27 +262,26 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         with open(csvFile, "r") as f:
             reader            = csv.DictReader((line.replace('\0','') for line in f) )
             rowList           = list(reader)
-            for rowData in rowList:
+            for i, rowData in enumerate(rowList):
                 try:
-                    dateTimeRow = datetime.strptime(rowData['dateTime'],'%Y-%m-%d %H:%M:%S.%f')
-                    point = Point(sensorID)  # Replace with your measurement name
+                    dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
+                    point = Point(sensorID)
                     point.tag("device_id", nodeID)
                     point.tag("device_name", nodeName)
-                    point.time(dateTimeRow, WritePrecision.NS) 
-                    # print(point)
-                    # Dynamically add fields based on the headers
+                    point.time(dateTimeRow, WritePrecision.NS)
                     for header in reader.fieldnames:
                         if header not in tag_columns and header != time_column:
                             point.field(header, isFloat(rowData[header]))
-                    # print(point)
                     sequence.append(point)
                 except ValueError as e:
                     print(f"-- An error occurred --: {e}")
 
+                if (i + 1) % batchSize == 0 or i == len(rowList) - 1:
+                    # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
+                    #     write_api = client.write_api(write_options=SYNCHRONOUS)
+                    #     write_api.write(influxBucket, influxOrg, sequence)
+                    sequence.clear()
 
-        # with InfluxDBClient(url=influxURL, token=influxToken, org=influxOrg) as client:
-        #     write_api = client.write_api(write_options=SYNCHRONOUS)
-        #     write_api.write(influxBucket, influxOrg, sequence)
         
         if not is_connected():
             print("No Connectivity")
