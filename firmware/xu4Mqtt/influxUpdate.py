@@ -261,10 +261,10 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         tag_columns = ["device_id", "device_name"]
         time_column = "dateTime"
         currentRecord = read_records(dataFileInflux)
+        fileDateStr = str(fileDate.strftime('%Y-%m-%d'))
+        print(check_id_date_exists(sensorID, fileDateStr, currentRecord, dataFileInflux))
 
-        print(check_id_date_exists(sensorID, fileDate, currentRecord, dataFileInflux))
-
-        if check_id_date_exists(sensorID, fileDate, currentRecord, dataFileInflux):
+        if check_id_date_exists(sensorID, fileDateStr, currentRecord, dataFileInflux):
             print("File already synced")
             print()
             return; 
@@ -369,16 +369,7 @@ def check_id_date_exists(id_value, date, records=None, filename='id_date_records
 
     if records is None:
         records = load_records(filename)
-    
 
-    print(type(date))
-    print(type(records[id_value][0]))
-    print(records)
-    print(id_value)
-    print(records[id_value])
-    print(date)
-    print(date in records[id_value])
-    print(id_value in records)
 
     # Check if the ID exists and the date is in the list for that ID
     if id_value in records and date in records[id_value]:
