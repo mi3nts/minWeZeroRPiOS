@@ -98,6 +98,7 @@ def directoryCheckV2(outputPath):
 
 
 def isFloat(value):
+    # When its a an empty value - Send a string 
     try:
         output = float(value)
 
@@ -253,6 +254,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
         tag_columns = ["device_id", "device_name"]
         time_column = "dateTime"
         currentRecord = read_records(dataFileInflux)
+        # At this point I need the date from the csv file 
         print(currentRecord)
 
         with open(csvFile, "r") as f:
@@ -271,7 +273,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                         if header not in tag_columns and header != time_column:
                             point.field(header, isFloat(rowData[header]))
                     # print(point)
-                    # sequence.append(point)
+                    sequence.append(point)
                 except ValueError as e:
                     print(f"-- An error occurred --: {e}")
 
