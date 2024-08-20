@@ -257,7 +257,7 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                             write_api = client.write_api(write_options=SYNCHRONOUS)
                             write_api.write(influxBucket, influxOrg, sequence)
                         sequence.clear()
-                        time.sleep(.1)
+                        time.sleep(.25)
 
                     except Exception as e:
                         print(f"-- An error occurred --: {e}")
@@ -311,6 +311,13 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
             for i, rowData in enumerate(rowList):
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
+                    if sensorID == "BME280" or sensorID == "BME680":
+                        # print(rowData)
+                        if float(rowData["humidity"]) > 0:
+                            rowData["dewPoint"] = str(243.04 * (math.log(float(rowData["humidity"]) / 100.0) + ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))) \
+                                / (17.625 - math.log(float(rowData["humidity"]) / 100.0) - ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))))
+                        else:
+                            rowData["dewPoint"] = str(0)
                     point = Point(sensorID)
                     point.tag("device_id", nodeID)
                     point.tag("device_name", nodeName)
@@ -334,7 +341,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                             write_api = client.write_api(write_options=SYNCHRONOUS)
                             write_api.write(influxBucket, influxOrg, sequence)
                         sequence.clear()
-                        time.sleep(.1)
+                        time.sleep(.25)
 
                     except Exception as e:
                         print(f"-- An error occurred --: {e}")
