@@ -216,13 +216,13 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
                     if sensorID == "BME280" or sensorID == "BME680":
-                        print(rowData)
+                        # print(rowData)
                         if float(rowData["humidity"]) > 0:
                             rowData["dewPoint"] = str(243.04 * (math.log(float(rowData["humidity"]) / 100.0) + ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))) \
                                 / (17.625 - math.log(float(rowData["humidity"]) / 100.0) - ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))))
                         else:
                             rowData["dewPoint"] = str(0)
-                        print(rowData)
+                        # print(rowData)
                     # print(lastDateTime)
                     # print(dateTimeRow)
                     # print(lastDateTime<dateTimeRow)
