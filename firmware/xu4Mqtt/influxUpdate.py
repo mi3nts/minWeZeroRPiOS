@@ -453,28 +453,23 @@ def is_connected(hostname="www.google.com"):
     except Exception as e:
         return False
 
-if is_connected():
-    print("Connected to the internet")
-else:
-    print("Not connected to the internet")
-
 def main():    
     # At this point just check for the node name via internet 
     syncTime = time.time()
     while True:
-        if is_connected():
-            nodeName = getNodeName(nodeID)
-            if nodeName is not None:
-                syncData2Influx(nodeID,nodeName)
-                syncTime = delayMintsV2(syncTime,loopTime) 
-                # print(f"Index: {index}, Node ID: {nodeID}, Node Name: {nodeName}")
-                # for sensorID in sensorIDs:
-                #   print("Sending data to Influx for Node ID: " + nodeID + ", Node Name: " + nodeName + ", Sensor ID: " +sensorID) 
-                #   syncData2Influx(nodeID,nodeName,sensorID)
-            
-        else:
-            time.sleep(60)
-        
+        try:
+            if is_connected():
+                nodeName = getNodeName(nodeID)
+                if nodeName is not None:
+                    syncData2Influx(nodeID,nodeName)
+                    syncTime = delayMintsV2(syncTime,loopTime)             
+            else:
+                time.sleep(60)
+                print("Sleeping for 5 minutes")
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            traceback.print_exc()
 
 if __name__ == "__main__":
     print("=============")
