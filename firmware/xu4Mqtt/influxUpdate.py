@@ -33,7 +33,7 @@ from collections import defaultdict
 import pandas as pd
 import re
 import socket
-
+import math
 from datetime import date, timedelta, datetime
 from mintsXU4 import mintsDefinitions as mD
 
@@ -215,6 +215,13 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
             for i, rowData in enumerate(rowList):
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
+                    if sensorID == "BME280" or sensorID == "BME680":
+                        print(rowData)
+                        if rowData["humidity"] > 0:
+                            rowData["dewPoint"] = 243.04 * (math.log(rowData["humidity"] / 100.0) + ((17.625 * rowData["temperature"]) / (243.04 + rowData["temperature"]))) / (17.625 - math.log(rowData["humidity"] / 100.0) - ((17.625 * rowData["temperature"]) / (243.04 + rowData["temperature"])))
+                        else:
+                            rowData["dewPoint"] = 0.0
+                        print(rowData)
                     # print(lastDateTime)
                     # print(dateTimeRow)
                     # print(lastDateTime<dateTimeRow)
