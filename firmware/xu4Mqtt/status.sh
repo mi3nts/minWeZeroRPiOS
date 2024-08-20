@@ -16,3 +16,7 @@ sleep 2
 echo "battery reader"
 echo $(pgrep -f 'batteryReader.py')
 sleep 2
+
+echo "influx update"
+echo $(pgrep -f 'influxUpdate.py')
+sleep 2
