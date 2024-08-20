@@ -215,18 +215,19 @@ def sendCSV2InfluxToday(csvFile,nodeID,sensorID,nodeName,fileDate):
             for i, rowData in enumerate(rowList):
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
-                    if sensorID == "BME280" or sensorID == "BME680":
-                        # print(rowData)
-                        if float(rowData["humidity"]) > 0:
-                            rowData["dewPoint"] = str(243.04 * (math.log(float(rowData["humidity"]) / 100.0) + ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))) \
-                                / (17.625 - math.log(float(rowData["humidity"]) / 100.0) - ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))))
-                        else:
-                            rowData["dewPoint"] = str(0)
+
                         # print(rowData)
                     # print(lastDateTime)
                     # print(dateTimeRow)
                     # print(lastDateTime<dateTimeRow)
                     if lastDateTime<dateTimeRow:
+                        if sensorID == "BME280" or sensorID == "BME680":
+                            # print(rowData)
+                            if float(rowData["humidity"]) > 0:
+                                rowData["dewPoint"] = str(243.04 * (math.log(float(rowData["humidity"]) / 100.0) + ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))) \
+                                    / (17.625 - math.log(float(rowData["humidity"]) / 100.0) - ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))))
+                            else:
+                                rowData["dewPoint"] = str(0)
                         # print(lastDateTime)
                         # print(dateTimeRow)
                         # print(lastDateTime<dateTimeRow)
@@ -311,6 +312,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
             for i, rowData in enumerate(rowList):
                 try:
                     dateTimeRow = datetime.strptime(rowData['dateTime'], '%Y-%m-%d %H:%M:%S.%f')
+
                     if sensorID == "BME280" or sensorID == "BME680":
                         # print(rowData)
                         if float(rowData["humidity"]) > 0:
@@ -318,6 +320,7 @@ def sendCSV2Influx(csvFile,nodeID,sensorID,nodeName,fileDate):
                                 / (17.625 - math.log(float(rowData["humidity"]) / 100.0) - ((17.625 * float(rowData["temperature"])) / (243.04 + float(rowData["temperature"])))))
                         else:
                             rowData["dewPoint"] = str(0)
+
                     point = Point(sensorID)
                     point.tag("device_id", nodeID)
                     point.tag("device_name", nodeName)
@@ -456,6 +459,7 @@ def delayMintsV2(startTime,loopTime):
     timeSpent   = currentTime - startTime 
     if(loopTime>timeSpent):
         waitTime = loopTime - timeSpent;
+        print("Sleeping for " +str(waitTime) +  " seconds")
         time.sleep(waitTime);
     return currentTime;
 
@@ -479,8 +483,9 @@ def main():
                     syncData2Influx(nodeID,nodeName)
                     syncTime = delayMintsV2(syncTime,loopTime)             
             else:
+                print("Sleeping for 1 minute")
                 time.sleep(60)
-                print("Sleeping for 5 minutes")
+                
 
         except Exception as e:
             print(f"An error occurred: {e}")
