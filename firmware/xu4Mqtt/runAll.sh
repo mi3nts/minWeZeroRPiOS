@@ -21,6 +21,12 @@ sleep 5
 python3 batteryReader.py 2>> /home/teamlary/gitHubRepos/errorLogs/batterryReaderError.log &
 sleep 5
 
+kill $(pgrep -f 'influxUpdate.py')
+sleep 5
+python3 influxUpdate.py &
+sleep 5
+
+
 
 python3 ipReader.py
 sleep 5
