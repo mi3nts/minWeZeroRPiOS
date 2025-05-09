@@ -1,4 +1,4 @@
-# minWeZeroRPiOS
+# Wearable Environmental Sensing for Tracking Air (WESTA)
 Contains Firmware for Mints Wearable Systems on the Raspberry Pi OS
 
 
